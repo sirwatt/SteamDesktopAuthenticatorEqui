@@ -39,7 +39,7 @@ namespace Steam_Desktop_Authenticator
                 Cef.Initialize(settings);
             }
 
-            browser = new ChromiumWebBrowser(steamAccount.GenerateConfirmationURL())
+            browser = new ChromiumWebBrowser(steamAccount.GenerateConfirmationHtmlURL())
             {
                 Dock = DockStyle.Fill,
             };
@@ -98,7 +98,7 @@ namespace Steam_Desktop_Authenticator
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            browser.Load(steamAccount.GenerateConfirmationURL());
+            browser.Load(steamAccount.GenerateConfirmationHtmlURL());
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -107,7 +107,7 @@ namespace Steam_Desktop_Authenticator
             switch (keyData)
             {
                 case Keys.F5:
-                    browser.Load(steamAccount.GenerateConfirmationURL());
+                    browser.Load(steamAccount.GenerateConfirmationHtmlURL());
                     bHandled = true;
                     break;
                 case Keys.F1:
