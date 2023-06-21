@@ -32,7 +32,14 @@ namespace Steam_Desktop_Authenticator
         public Confirmation[] Confirmations
         {
             get { return confirms.ToArray(); }
-            set { confirms = new List<Confirmation>(value); }
+            set {
+                confirms = new List<Confirmation>(value);
+
+                if(confirms.Count > 0) {
+                    lblDesc.Text = confirms[0].Headline;
+                }
+                else { lblDesc.Text = "No pending confirmations"; }
+            }
         }
 
         private void TradePopupForm_Load(object sender, EventArgs e)
@@ -94,7 +101,7 @@ namespace Steam_Desktop_Authenticator
             else
             {
                 //TODO: Re-add confirmation description support to SteamAuth.
-                lblDesc.Text = "Confirmation";
+                //lblDesc.Text = "Confirmation";
             }
         }
 

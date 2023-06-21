@@ -135,16 +135,19 @@ namespace Steam_Desktop_Authenticator
 
             try
             {
-                ConfirmationFormWeb confirms = new ConfirmationFormWeb(currentAccount);
-                confirms.Show();
+                popupFrm.Account = currentAccount;
+                popupFrm.Confirmations = currentAccount.FetchConfirmations();
+                popupFrm.Popup();
             }
             catch (Exception)
             {
-                DialogResult res = MessageBox.Show("You are missing a dependency required to view your trade confirmations.\nWould you like to install it now?", "Trade confirmations failed to open", MessageBoxButtons.YesNo);
-                if (res == DialogResult.Yes)
-                {
-                    new InstallRedistribForm(true).ShowDialog();
-                }
+                //DialogResult res = MessageBox.Show("You are missing a dependency required to view your trade confirmations.\nWould you like to install it now?", "Trade confirmations failed to open", MessageBoxButtons.YesNo);
+                //if (res == DialogResult.Yes)
+                //{
+                //    new InstallRedistribForm(true).ShowDialog();
+                //}
+                btnTradeConfirmations.Text = "Failed to load";
+                btnTradeConfirmations.Text = oText;
             }
         }
 

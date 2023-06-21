@@ -39,7 +39,7 @@ namespace Steam_Desktop_Authenticator
                 Cef.Initialize(settings);
             }
 
-            browser = new ChromiumWebBrowser(steamAccount.GenerateConfirmationHtmlURL())
+            browser = new ChromiumWebBrowser(steamAccount.GenerateConfirmationURL())
             {
                 Dock = DockStyle.Fill,
             };
@@ -65,17 +65,17 @@ namespace Steam_Desktop_Authenticator
                 var script = string.Format(@"window.GetValueFromLocalURL = 
                 function(url, timeout, success, error, fatal) {{            
                     console.log(url);
-                    if(url.indexOf('steammobile://steamguard?op=conftag&arg1=allow') !== -1) {{
-                        // send confirmation (allow)
+                    if(url.indexOf('steammobile://steamguard?op=conftag&arg1=accept') !== -1) {{
+                        // send confirmation (accept)
                         success('{0}');
-                    }} else if(url.indexOf('steammobile://steamguard?op=conftag&arg1=cancel') !== -1) {{
-                        // send confirmation (cancel)
+                    }} else if(url.indexOf('steammobile://steamguard?op=conftag&arg1=reject') !== -1) {{
+                        // send confirmation (reject)
                         success('{1}');
                     }} else if(url.indexOf('steammobile://steamguard?op=conftag&arg1=details') !== -1) {{
                         // get details
                         success('{2}');
                     }}
-                }}", steamAccount.GenerateConfirmationQueryParams("allow"), steamAccount.GenerateConfirmationQueryParams("cancel"), urlParams);
+                }}", steamAccount.GenerateConfirmationQueryParams("accept"), steamAccount.GenerateConfirmationQueryParams("reject"), urlParams);
                 try
                 {
                     browser.ExecuteScriptAsync(script);
@@ -98,7 +98,7 @@ namespace Steam_Desktop_Authenticator
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            browser.Load(steamAccount.GenerateConfirmationHtmlURL());
+            browser.Load(steamAccount.GenerateConfirmationURL());
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -107,7 +107,7 @@ namespace Steam_Desktop_Authenticator
             switch (keyData)
             {
                 case Keys.F5:
-                    browser.Load(steamAccount.GenerateConfirmationHtmlURL());
+                    browser.Load(steamAccount.GenerateConfirmationURL());
                     bHandled = true;
                     break;
                 case Keys.F1:
